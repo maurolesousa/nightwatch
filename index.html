@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Night Watch – Early Music Ensemble</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Cinzel:wght@400;500;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#faf7f2;
+  --white:#ffffff;
+  --ink:#1c1713;
+  --mid:#5a4e3c;
+  --gold:#b8860b;
+  --gold-bright:#d4a017;
+  --rust:#8b3a2a;
+  --teal:#1a5c5a;
+  --sage:#4a7c59;
+  --blush:#e8d5c4;
+  --border:#e2d9cc;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.7;overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:var(--white);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:68px;
+}
+.nav-logo{font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);text-decoration:none;font-weight:600;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mid);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-fb{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:10px 22px;text-decoration:none;transition:background .2s;}
+.nav-fb:hover{background:var(--teal);}
+
+/* HERO */
+.hero{position:relative;width:100%;height:100vh;min-height:580px;overflow:hidden;margin-top:68px;}
+.hero-slides{position:absolute;inset:0;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;display:flex;flex-direction:column;justify-content:flex-end;}
+.slide.active{opacity:1;}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.slide-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.2) 50%,rgba(0,0,0,.05) 100%);}
+.s1{background:linear-gradient(150deg,#1a3a2a 0%,#2d6040 25%,#8b6914 55%,#c9921a 75%,#7a3010 100%);}
+.s2{background:linear-gradient(140deg,#2a1832 0%,#4a1e5a 30%,#8b3020 60%,#d4601a 85%,#2a1020 100%);}
+.s3{background:linear-gradient(130deg,#0d2030 0%,#1a4060 35%,#1a5c50 65%,#2d8060 85%,#0d2030 100%);}
+.slide-art{position:absolute;right:10%;top:50%;transform:translateY(-50%);opacity:.15;pointer-events:none;}
+.slide-content{position:relative;z-index:2;padding:0 72px 90px;max-width:680px;}
+.slide-tag{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:16px;}
+.slide-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;color:#fff;line-height:1.08;margin-bottom:18px;}
+.slide-title em{font-style:italic;font-weight:400;}
+.slide-sub{font-family:'Source Serif 4',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,.78);margin-bottom:36px;line-height:1.65;max-width:480px;}
+.slide-btn{display:inline-block;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;background:#fff;color:var(--ink);padding:15px 36px;text-decoration:none;transition:background .2s,color .2s;}
+.slide-btn:hover{background:var(--gold-bright);color:#fff;}
+.hero-dots{position:absolute;bottom:32px;left:72px;z-index:10;display:flex;gap:10px;}
+.dot{width:32px;height:3px;background:rgba(255,255,255,.3);cursor:pointer;transition:background .3s;border:none;padding:0;}
+.dot.active{background:#fff;}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;width:52px;height:52px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.3rem;transition:background .2s;backdrop-filter:blur(4px);}
+.hero-arrow:hover{background:rgba(255,255,255,.28);}
+.arrow-prev{left:20px;}
+.arrow-next{right:20px;}
+
+/* CONCERTS STRIP */
+.concerts-strip{background:var(--white);border-bottom:3px solid var(--teal);padding:0 48px;}
+.concerts-header{display:flex;align-items:center;justify-content:space-between;padding:42px 0 26px;border-bottom:1px solid var(--border);}
+.concerts-header h2{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:500;}
+.see-all{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal);padding-bottom:2px;transition:color .2s;}
+.see-all:hover{color:var(--ink);border-color:var(--ink);}
+.concert-item{display:grid;grid-template-columns:90px 1fr auto;align-items:start;padding:28px 0;border-bottom:1px solid var(--border);transition:background .2s;cursor:pointer;}
+.concert-item:last-child{border-bottom:none;}
+.concert-item:hover{background:rgba(26,92,90,.04);}
+.ci-date{padding-right:32px;border-right:1px solid var(--border);}
+.ci-day{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;color:var(--teal);line-height:1;}
+.ci-mon{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-top:4px;}
+.ci-body{padding:0 36px;}
+.ci-programme{font-family:'Playfair Display',serif;font-size:1.18rem;font-style:italic;margin-bottom:4px;}
+.ci-where{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);}
+.ci-desc{font-size:.9rem;color:var(--mid);margin-top:8px;line-height:1.65;}
+.ci-info a{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;display:inline-block;border:1px solid var(--ink);color:var(--ink);padding:10px 20px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap;margin-top:6px;}
+.ci-info a:hover{background:var(--ink);color:var(--white);}
+
+/* FEATURE SPLIT */
+.feature-split{display:grid;grid-template-columns:1fr 1fr;min-height:500px;}
+.feature-img{position:relative;overflow:hidden;}
+.fimg-bg{position:absolute;inset:0;transition:transform 6s ease;background-size:cover;background-position:center;}
+.feature-split:hover .fimg-bg{transform:scale(1.04);}
+.fi1{background:linear-gradient(155deg,#1a2a0a 0%,#2d5020 35%,#8b7010 60%,#c4901a 80%,#3a2008 100%);}
+.fi2{background:linear-gradient(140deg,#0d2218 0%,#1a4a35 45%,#2d8060 75%,#1a5c48 100%);}
+.feature-text{background:var(--white);padding:72px 64px;display:flex;flex-direction:column;justify-content:center;}
+.feature-text.bg-teal{background:#1a5c5a;color:#fff;}
+.feature-text.bg-teal .feat-label{color:rgba(255,255,255,.55);}
+.feature-text.bg-teal h2{color:#fff;}
+.feature-text.bg-teal p{color:rgba(255,255,255,.78);}
+.feature-text.bg-teal .feat-link{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.3);}
+.feature-text.bg-teal .feat-link:hover{color:#fff;border-color:#fff;}
+.feat-label{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
+.feature-text h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.8rem);font-weight:700;line-height:1.15;margin-bottom:22px;}
+.feature-text h2 em{font-style:italic;font-weight:400;}
+.feature-text p{color:var(--mid);line-height:1.82;margin-bottom:18px;font-size:.97rem;}
+.feat-link{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:3px;transition:border-color .2s;display:inline-block;margin-top:10px;}
+.feat-link:hover{border-color:var(--ink);}
+
+/* PROGRAMMES */
+.programmes{background:var(--cream);padding:100px 48px;}
+.programmes h2{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:500;margin-bottom:8px;}
+.prog-intro{color:var(--mid);font-size:.95rem;margin-bottom:52px;font-style:italic;}
+.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);}
+.prog-card{background:var(--white);display:flex;flex-direction:column;overflow:hidden;}
+.prog-card-img{height:230px;position:relative;overflow:hidden;}
+.prog-card-img-bg{position:absolute;inset:0;transition:transform .5s ease;}
+.prog-card:hover .prog-card-img-bg{transform:scale(1.06);}
+.pc1{background:linear-gradient(135deg,#3d1a10 0%,#7a3020 40%,#c47018 65%,#e8a030 100%);}
+.pc2{background:linear-gradient(135deg,#0d2a1a 0%,#1a5c40 40%,#2d8b60 70%,#4ab080 100%);}
+.pc3{background:linear-gradient(135deg,#1a1a3d 0%,#302880 45%,#5040b0 70%,#8060d0 100%);}
+.prog-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.55) 100%);}
+.prog-label{position:absolute;bottom:16px;left:20px;right:20px;font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:#fff;font-weight:700;line-height:1.3;}
+.prog-body{padding:26px 28px 34px;}
+.prog-era{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.prog-body p{font-size:.88rem;color:var(--mid);line-height:1.72;}
+.prog-body a{display:inline-block;margin-top:16px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px;transition:border-color .2s;}
+.prog-body a:hover{border-color:var(--ink);}
+
+/* NEWS */
+.news{background:var(--white);padding:100px 48px;}
+.news h2{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:500;margin-bottom:52px;}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;}
+.news-rule{width:36px;height:2px;background:var(--teal);margin-bottom:14px;}
+.news-date{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);margin-bottom:10px;}
+.news-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;color:var(--ink);margin-bottom:10px;line-height:1.4;}
+.news-item p{font-size:.88rem;color:var(--mid);line-height:1.72;}
+
+/* SUPPORT BANNER */
+.support{display:grid;grid-template-columns:1fr 1fr;}
+.support-text{background:var(--teal);padding:88px 72px;display:flex;flex-direction:column;justify-content:center;}
+.support-text h2{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:20px;}
+.support-text p{color:rgba(255,255,255,.78);font-size:.97rem;margin-bottom:32px;line-height:1.8;}
+.support-text a{display:inline-block;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;background:#fff;color:var(--teal);padding:15px 34px;text-decoration:none;transition:background .2s,color .2s;}
+.support-text a:hover{background:var(--gold-bright);color:#fff;}
+.support-vis{position:relative;overflow:hidden;background:linear-gradient(135deg,#0d3328 0%,#1a5c48 45%,#2d8068 75%,#0d4030 100%);}
+.support-vis-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+
+/* CONTACT */
+.contact{background:var(--cream);padding:100px 48px;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1160px;margin:0 auto;}
+.contact h2{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:500;margin-bottom:8px;}
+.contact-sub{color:var(--mid);margin-bottom:36px;font-style:italic;}
+.c-label{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:4px;}
+.contact-detail{margin-bottom:20px;}
+.contact-detail a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s;}
+.contact-detail a:hover{border-color:var(--ink);}
+.fb-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;background:#1877f2;color:#fff;padding:13px 26px;text-decoration:none;margin-top:4px;transition:background .2s;}
+.fb-btn:hover{background:#0f5fcb;}
+.fb-btn svg{width:16px;height:16px;fill:#fff;flex-shrink:0;}
+.newsletter{background:var(--white);padding:52px;border:1px solid var(--border);}
+.newsletter h3{font-family:'Playfair Display',serif;font-size:1.45rem;font-style:italic;margin-bottom:8px;}
+.newsletter p{font-size:.9rem;color:var(--mid);margin-bottom:26px;line-height:1.7;}
+.nl-form{display:flex;flex-direction:column;gap:12px;}
+.nl-form input{border:1px solid var(--border);background:var(--cream);color:var(--ink);font-family:'Source Serif 4',serif;font-size:.95rem;padding:13px 16px;outline:none;transition:border-color .2s;}
+.nl-form input:focus{border-color:var(--teal);}
+.nl-form input::placeholder{color:rgba(90,78,60,.45);}
+.nl-form button{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;background:var(--teal);color:#fff;border:none;padding:15px;cursor:pointer;transition:background .2s;}
+.nl-form button:hover{background:var(--ink);}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,.5);padding:60px 48px 40px;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;}
+.footer-logo{font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.22em;text-transform:uppercase;color:#fff;margin-bottom:12px;}
+.footer-brand p{font-size:.82rem;line-height:1.75;}
+footer h4{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:18px;}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+footer ul a{font-size:.85rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
+footer ul a:hover{color:#fff;}
+.footer-bar{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding-top:28px;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;}
+.footer-bar a{color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s;}
+.footer-bar a:hover{color:#fff;}
+
+/* MOBILE */
+@media(max-width:960px){
+  nav{padding:0 24px;}
+  .nav-links{display:none;}
+  .slide-content{padding:0 28px 56px;}
+  .concerts-strip{padding:0 24px;}
+  .concert-item{grid-template-columns:70px 1fr;}
+  .ci-info{display:none;}
+  .feature-split{grid-template-columns:1fr;}
+  .feature-img{height:280px;}
+  .feature-text{padding:52px 32px;}
+  .programmes,.news,.contact{padding:60px 24px;}
+  .prog-grid{grid-template-columns:1fr;}
+  .news-grid{grid-template-columns:1fr;gap:36px;}
+  .support{grid-template-columns:1fr;}
+  .support-vis{display:none;}
+  .support-text{padding:60px 32px;}
+  .contact-grid{grid-template-columns:1fr;gap:48px;}
+  footer{grid-template-columns:1fr;padding:48px 24px 36px;}
+  .footer-bar{flex-direction:column;gap:12px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">The Night Watch</a>
+  <ul class="nav-links">
+    <li><a href="#concerts">What's On</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#programmes">Programmes</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank" class="nav-fb">Follow Us</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-slides">
+
+    <div class="slide active">
+      <div class="slide-bg s1">
+        <svg class="slide-art" viewBox="0 0 200 320" width="280" height="440" fill="none">
+          <ellipse cx="100" cy="210" rx="82" ry="100" fill="white" opacity=".3"/>
+          <ellipse cx="100" cy="210" rx="52" ry="68" fill="white" opacity=".18"/>
+          <rect x="97" y="72" width="6" height="62" fill="white" opacity=".45"/>
+          <rect x="89" y="58" width="22" height="18" rx="3" fill="white" opacity=".38"/>
+          <circle cx="100" cy="210" r="18" stroke="white" stroke-width="1.5" opacity=".3"/>
+          <line x1="72" y1="190" x2="128" y2="190" stroke="white" stroke-opacity=".22" stroke-width="1"/>
+          <line x1="68" y1="207" x2="132" y2="207" stroke="white" stroke-opacity=".22" stroke-width="1"/>
+          <line x1="70" y1="224" x2="130" y2="224" stroke="white" stroke-opacity=".22" stroke-width="1"/>
+          <line x1="74" y1="241" x2="126" y2="241" stroke="white" stroke-opacity=".22" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="slide-content">
+        <p class="slide-tag">Wellington · Aotearoa New Zealand</p>
+        <h1 class="slide-title">The Night<br/>Watch</h1>
+        <p class="slide-sub">Period instruments. Ancient voices. Music of the medieval, renaissance & early Baroque — alive again.</p>
+        <a href="#concerts" class="slide-btn">Upcoming Concerts</a>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-bg s2">
+        <svg class="slide-art" viewBox="0 0 220 360" width="260" height="420" fill="none">
+          <path d="M110 30 C110 30,145 65,138 110 C131 155,90 168,90 210 C90 252,124 272,124 295 C124 322,100 338,85 332" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".35"/>
+          <ellipse cx="102" cy="216" rx="24" ry="16" stroke="white" stroke-width="2" opacity=".28"/>
+          <line x1="60" y1="152" x2="160" y2="152" stroke="white" stroke-width="1" opacity=".2"/>
+          <line x1="56" y1="170" x2="164" y2="170" stroke="white" stroke-width="1" opacity=".2"/>
+          <line x1="56" y1="188" x2="164" y2="188" stroke="white" stroke-width="1" opacity=".2"/>
+          <line x1="56" y1="206" x2="164" y2="206" stroke="white" stroke-width="1" opacity=".2"/>
+          <line x1="56" y1="224" x2="164" y2="224" stroke="white" stroke-width="1" opacity=".2"/>
+        </svg>
+      </div>
+      <div class="slide-content">
+        <p class="slide-tag">2025 Season</p>
+        <h1 class="slide-title"><em>Ténèbres</em></h1>
+        <p class="slide-sub">Couperin & Marais — a candlelit journey through the darkness of French Baroque</p>
+        <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank" class="slide-btn">Find Out More</a>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-bg s3">
+        <svg class="slide-art" viewBox="0 0 260 320" width="280" height="340" fill="none">
+          <rect x="30" y="160" width="200" height="90" rx="4" fill="white" opacity=".22"/>
+          <rect x="40" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="60" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="80" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="100" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="120" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="140" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="160" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="180" y="165" width="16" height="60" rx="2" fill="none" stroke="rgba(29,92,80,.8)" stroke-width="1.5"/>
+          <rect x="54" y="165" width="10" height="38" rx="1" fill="rgba(29,92,80,.55)"/>
+          <rect x="94" y="165" width="10" height="38" rx="1" fill="rgba(29,92,80,.55)"/>
+          <rect x="134" y="165" width="10" height="38" rx="1" fill="rgba(29,92,80,.55)"/>
+          <rect x="154" y="165" width="10" height="38" rx="1" fill="rgba(29,92,80,.55)"/>
+          <rect x="194" y="165" width="10" height="38" rx="1" fill="rgba(29,92,80,.55)"/>
+          <path d="M30 160 Q130 85 230 160" stroke="white" stroke-width="1.5" opacity=".3" fill="none"/>
+        </svg>
+      </div>
+      <div class="slide-content">
+        <p class="slide-tag">Early Music Ensemble</p>
+        <h1 class="slide-title"><em>In Darknesse</em></h1>
+        <p class="slide-sub">Chiaroscuro in sound — the light and shadow of Rembrandt, translated into early Baroque music</p>
+        <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank" class="slide-btn">Find Out More</a>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="hero-arrow arrow-prev" onclick="changeSlide(-1)" aria-label="Previous">&#8592;</button>
+  <button class="hero-arrow arrow-next" onclick="changeSlide(1)" aria-label="Next">&#8594;</button>
+  <div class="hero-dots">
+    <button class="dot active" onclick="goSlide(0)"></button>
+    <button class="dot" onclick="goSlide(1)"></button>
+    <button class="dot" onclick="goSlide(2)"></button>
+  </div>
+</section>
+
+<!-- CONCERTS -->
+<section id="concerts" class="concerts-strip">
+  <div class="concerts-header">
+    <h2>Our next performances</h2>
+    <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank" class="see-all">See full listing on Facebook →</a>
+  </div>
+
+  <div class="concert-item">
+    <div class="ci-date"><div class="ci-day">12</div><div class="ci-mon">Jul 2025</div></div>
+    <div class="ci-body">
+      <div class="ci-programme">In Darknesse</div>
+      <div class="ci-where">Wellington, Aotearoa</div>
+      <p class="ci-desc">The second 2025 concert in The Night Watch's season — chiaroscuro in sound, exploring themes of light and shadow through the music of the early Baroque.</p>
+    </div>
+    <div class="ci-info"><a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Info</a></div>
+  </div>
+
+  <div class="concert-item">
+    <div class="ci-date"><div class="ci-day">TBA</div><div class="ci-mon">2025</div></div>
+    <div class="ci-body">
+      <div class="ci-programme">Ténèbres — French Baroque</div>
+      <div class="ci-where">Wellington, Aotearoa</div>
+      <p class="ci-desc">Couperin's <em>Leçons de Ténèbres</em> alongside Marin Marais' <em>Les Voix Humaines</em> — a candlelit meditation on darkness and the human voice.</p>
+    </div>
+    <div class="ci-info"><a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Info</a></div>
+  </div>
+
+  <div class="concert-item">
+    <div class="ci-date"><div class="ci-day">TBA</div><div class="ci-mon">2026</div></div>
+    <div class="ci-body">
+      <div class="ci-programme">2026 Season — to be announced</div>
+      <div class="ci-where">Aotearoa New Zealand</div>
+      <p class="ci-desc">Follow us on Facebook for the latest news on our upcoming 2026 season concerts and events.</p>
+    </div>
+    <div class="ci-info"><a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Info</a></div>
+  </div>
+</section>
+
+<!-- ABOUT SPLIT -->
+<section id="about">
+  <div class="feature-split">
+    <div class="feature-img">
+      <div class="fimg-bg fi1">
+        <svg viewBox="0 0 260 400" width="100%" height="100%" style="position:absolute;inset:0;opacity:.2;" fill="none">
+          <path d="M130 35 C 78 55,48 115,58 175 C68 235,92 258,130 278 C168 258,192 235,202 175 C212 115,182 55,130 35Z" fill="white"/>
+          <rect x="127" y="8" width="6" height="48" fill="white"/>
+          <rect x="118" y="4" width="24" height="16" rx="3" fill="white"/>
+          <ellipse cx="130" cy="178" rx="26" ry="17" stroke="white" stroke-width="2" opacity=".5"/>
+          <line x1="100" y1="148" x2="160" y2="148" stroke="white" stroke-width="1" opacity=".3"/>
+          <line x1="95"  y1="166" x2="165" y2="166" stroke="white" stroke-width="1" opacity=".3"/>
+          <line x1="98"  y1="184" x2="162" y2="184" stroke="white" stroke-width="1" opacity=".3"/>
+          <line x1="100" y1="202" x2="160" y2="202" stroke="white" stroke-width="1" opacity=".3"/>
+          <line x1="104" y1="220" x2="156" y2="220" stroke="white" stroke-width="1" opacity=".3"/>
+        </svg>
+      </div>
+    </div>
+    <div class="feature-text">
+      <p class="feat-label">Who We Are</p>
+      <h2>Wellington's period<br/><em>early music ensemble</em></h2>
+      <p>The Night Watch brings together Aotearoa's leading specialists in early music, co-directed by Imogen Granwal (viola da gamba) and Luka Venter (countertenor & conductor). Since founding the ensemble in 2019, they have built a reputation for beautifully crafted programmes that foreground the expressive possibilities of music from the medieval, renaissance and early baroque periods.</p>
+      <p>The ensemble's name is an homage to Rembrandt's iconic painting — light and shadow, translated into sound.</p>
+      <a href="#contact" class="feat-link">Get in touch →</a>
+    </div>
+  </div>
+
+  <div class="feature-split">
+    <div class="feature-text bg-teal">
+      <p class="feat-label">Period Instruments</p>
+      <h2>Ancient instruments,<br/><em>living music</em></h2>
+      <p>The Night Watch performs on historical instruments — viola da gamba, baroque violin, lute, theorbo, harpsichord and recorders — as close as possible to those that sounded in the courts, churches and salons of 16th and 17th century Europe.</p>
+      <p>The ensemble collaborates with Australasia's finest early music specialists and visiting international artists, performing sacred and secular repertoire from plainchant through to the early Baroque.</p>
+      <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank" class="feat-link">Follow our journey →</a>
+    </div>
+    <div class="feature-img">
+      <div class="fimg-bg fi2">
+        <svg viewBox="0 0 300 380" width="100%" height="100%" style="position:absolute;inset:0;opacity:.18;" fill="none">
+          <rect x="40" y="180" width="220" height="100" rx="4" fill="white"/>
+          <rect x="50" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="72" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="94" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="116" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="138" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="160" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="182" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="204" y="186" width="18" height="68" rx="2" fill="none" stroke="rgba(26,92,72,.9)" stroke-width="1.5"/>
+          <rect x="63" y="186" width="11" height="42" rx="1" fill="rgba(26,92,72,.65)"/>
+          <rect x="107" y="186" width="11" height="42" rx="1" fill="rgba(26,92,72,.65)"/>
+          <rect x="151" y="186" width="11" height="42" rx="1" fill="rgba(26,92,72,.65)"/>
+          <rect x="173" y="186" width="11" height="42" rx="1" fill="rgba(26,92,72,.65)"/>
+          <rect x="215" y="186" width="11" height="42" rx="1" fill="rgba(26,92,72,.65)"/>
+          <path d="M40 180 Q150 100 260 180" stroke="white" stroke-width="2" opacity=".35" fill="none"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMMES -->
+<section id="programmes" class="programmes">
+  <div style="max-width:1160px;margin:0 auto;">
+    <h2>Featured Programmes</h2>
+    <p class="prog-intro">Concerts past & present — the music The Night Watch brings to life</p>
+    <div class="prog-grid">
+
+      <div class="prog-card">
+        <div class="prog-card-img">
+          <div class="prog-card-img-bg pc1"></div>
+          <div class="prog-overlay"></div>
+          <div class="prog-label">Ténèbres</div>
+        </div>
+        <div class="prog-body">
+          <div class="prog-era">French Baroque · 2025</div>
+          <p>Couperin's <em>Leçons de Ténèbres</em> interwoven with Marin Marais' <em>Les Voix Humaines</em> — a meditation on darkness and the human voice, performed in candlelight.</p>
+          <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-card-img">
+          <div class="prog-card-img-bg pc2"></div>
+          <div class="prog-overlay"></div>
+          <div class="prog-label">In Darknesse</div>
+        </div>
+        <div class="prog-body">
+          <div class="prog-era">Early Baroque · 2025</div>
+          <p>The second 2025 concert — a programme shaped by the visual drama of Rembrandt's chiaroscuro, translated into the sound of early Baroque music.</p>
+          <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="prog-card">
+        <div class="prog-card-img">
+          <div class="prog-card-img-bg pc3"></div>
+          <div class="prog-overlay"></div>
+          <div class="prog-label">Every Breath You Take</div>
+        </div>
+        <div class="prog-body">
+          <div class="prog-era">Inaugural Concert · 2019</div>
+          <p>The founding programme — led by guest director Catherine Mackintosh, a founding member of the Orchestra of the Age of Enlightenment, and a statement of artistic intent.</p>
+          <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Learn more →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news">
+  <div style="max-width:1160px;margin:0 auto;">
+    <h2>Latest News</h2>
+    <div class="news-grid">
+      <div class="news-item">
+        <div class="news-rule"></div>
+        <div class="news-date">2025 Season</div>
+        <div class="news-title">The Night Watch announces its 2025 programme</div>
+        <p>Two concerts exploring chiaroscuro in sound — darkness, candlelight, and the music of Couperin, Marais and early Baroque masters. Follow us on Facebook for dates and tickets.</p>
+      </div>
+      <div class="news-item">
+        <div class="news-rule"></div>
+        <div class="news-date">Ensemble · 2024</div>
+        <div class="news-title">Available for weddings & private events</div>
+        <p>The Night Watch now accepts bookings for weddings, private celebrations and special events — contact us to discuss a bespoke early music programme for your occasion.</p>
+      </div>
+      <div class="news-item">
+        <div class="news-rule"></div>
+        <div class="news-date">History · 2019</div>
+        <div class="news-title">The Night Watch is founded in Wellington</div>
+        <p>Co-directors Imogen Granwal and Luka Venter launched the ensemble with <em>Every Breath You Take</em> — featuring guest director Catherine Mackintosh, a founding member of the OAE.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT BANNER -->
+<div class="support">
+  <div class="support-text">
+    <h2>Support early music in Aotearoa</h2>
+    <p>The Night Watch relies on the passion of its musicians and the generosity of its audience to bring rare repertoire to New Zealand. Follow us, spread the word, and join us at our next concert.</p>
+    <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Follow on Facebook</a>
+  </div>
+  <div class="support-vis">
+    <div class="support-vis-inner">
+      <svg viewBox="0 0 200 300" width="160" height="240" fill="none" style="opacity:.22;">
+        <path d="M100 18 C100 18,132 52,126 96 C120 140,82 152,82 192 C82 232,114 250,114 272 C114 298,90 312,76 306" stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <ellipse cx="92" cy="198" rx="22" ry="15" stroke="white" stroke-width="2.5"/>
+        <line x1="52" y1="130" x2="148" y2="130" stroke="white" stroke-width="1.5" opacity=".45"/>
+        <line x1="48" y1="148" x2="152" y2="148" stroke="white" stroke-width="1.5" opacity=".45"/>
+        <line x1="48" y1="166" x2="152" y2="166" stroke="white" stroke-width="1.5" opacity=".45"/>
+        <line x1="48" y1="184" x2="152" y2="184" stroke="white" stroke-width="1.5" opacity=".45"/>
+        <line x1="48" y1="202" x2="152" y2="202" stroke="white" stroke-width="1.5" opacity=".45"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="contact-grid">
+    <div>
+      <h2>Contact Us</h2>
+      <p class="contact-sub">For concert enquiries, private events, weddings or collaborations — we'd love to hear from you.</p>
+      <div class="contact-detail">
+        <span class="c-label">Email</span>
+        <a href="mailto:imogencello@hotmail.com">imogencello@hotmail.com</a>
+      </div>
+      <div class="contact-detail">
+        <span class="c-label">Location</span>
+        Wellington, Aotearoa New Zealand
+      </div>
+      <div class="contact-detail">
+        <span class="c-label">Social</span>
+        <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank" class="fb-btn">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          facebook.com/WatchEarlyMusic
+        </a>
+      </div>
+    </div>
+    <div class="newsletter">
+      <h3>Stay in touch</h3>
+      <p>Receive news of upcoming concerts, new programmes and announcements from The Night Watch.</p>
+      <div class="nl-form">
+        <input type="text" placeholder="Your name"/>
+        <input type="email" placeholder="Email address"/>
+        <button type="button">Subscribe to our newsletter</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">The Night Watch</div>
+    <p>Early Music Ensemble<br/>Wellington, Aotearoa New Zealand<br/>Period instruments · Founded 2019</p>
+  </div>
+  <div>
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="#concerts">What's On</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#programmes">Programmes</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Connect</h4>
+    <ul>
+      <li><a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">Facebook</a></li>
+      <li><a href="mailto:imogencello@hotmail.com">Email Us</a></li>
+    </ul>
+  </div>
+  <div class="footer-bar">
+    <span>© 2025 The Night Watch. Wellington, Aotearoa New Zealand.</span>
+    <a href="https://www.facebook.com/WatchEarlyMusic" target="_blank">facebook.com/WatchEarlyMusic</a>
+  </div>
+</footer>
+
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const dots=document.querySelectorAll('.dot');
+function goSlide(n){
+  slides[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur=(n+slides.length)%slides.length;
+  slides[cur].classList.add('active');
+  dots[cur].classList.add('active');
+}
+function changeSlide(d){goSlide(cur+d);}
+setInterval(()=>changeSlide(1),5500);
+</script>
+</body>
+</html>
